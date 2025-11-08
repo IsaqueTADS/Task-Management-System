@@ -9,6 +9,7 @@ import {
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { env } from './env'
+import { registerRoutes } from './routes'
 
 const envToLogger = {
   development: {
@@ -55,3 +56,5 @@ app.register(ScalarApiReference, {
     theme: 'bluePlanet',
   },
 })
+
+app.register(registerRoutes)
