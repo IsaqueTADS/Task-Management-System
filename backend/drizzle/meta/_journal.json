@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1762626855224,
+      "tag": "0000_curved_frog_thor",
+      "breakpoints": true
+    }
+  ]
+}

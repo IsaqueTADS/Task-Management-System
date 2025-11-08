@@ -2,13 +2,11 @@ version: '3.8'
 
 services:
   mysql:
-    image: mysql:latest
-    container_name: Task-Management-System
+    image: mysql:8.4
+    container_name: task-management-system
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: task_management_system
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
    

@@ -1,14 +1,13 @@
-import fastifySwagger from '@fastify/swagger'
+import { fastifyCors } from '@fastify/cors'
+import { fastifySwagger } from '@fastify/swagger'
+import ScalarApiReference from '@scalar/fastify-api-reference'
 import { fastify } from 'fastify'
 import {
+  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
-  jsonSchemaTransform,
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
-
-import { fastifyCors } from '@fastify/cors'
-import ScalarApiReference from '@scalar/fastify-api-reference'
 import { env } from './env'
 
 const envToLogger = {
