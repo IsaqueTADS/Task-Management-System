@@ -9,8 +9,25 @@ import {
 
 import { fastifyCors } from '@fastify/cors'
 import ScalarApiReference from '@scalar/fastify-api-reference'
+import { env } from './env'
 
-export const app = fastify().withTypeProvider<ZodTypeProvider>()
+const envToLogger = {
+  development: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname',
+      },
+    },
+  },
+  production: true,
+  test: false,
+}
+
+export const app = fastify({
+  logger: envToLogger[env.NODE_ENV] ?? true,
+}).withTypeProvider<ZodTypeProvider>()
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
@@ -36,6 +53,6 @@ app.register(fastifySwagger, {
 app.register(ScalarApiReference, {
   routePrefix: '/docs',
   configuration: {
-    theme: "bluePlanet"
+    theme: 'bluePlanet',
   },
 })
