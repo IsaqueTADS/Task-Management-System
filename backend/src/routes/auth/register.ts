@@ -12,11 +12,13 @@ export const register: FastifyPluginAsyncZod = async (app) => {
       schema: {
         tags: ['Auth'],
         summary: 'register user',
-        body: z.object({
-          username: z.string().min(5).max(255),
-          email: z.email(),
-          password: z.string().min(8).max(255),
-        }),
+        body: z
+          .object({
+            username: z.string().min(5).max(255),
+            email: z.email().min(5).max(255),
+            password: z.string().min(8).max(255),
+          })
+          .strict(),
         response: {
           409: z.object({
             message: z.string().describe('Esse email já está em uso!'),
@@ -35,7 +37,7 @@ export const register: FastifyPluginAsyncZod = async (app) => {
         .from(users)
         .where(eq(users.email, email))
 
-      if (userExist[0]) {
+      if (userExist.length !== 0) {
         return reply.status(409).send({ message: 'Esse email já está em uso!' })
       }
 
