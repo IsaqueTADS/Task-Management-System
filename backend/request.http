@@ -23,9 +23,14 @@ content-type: application/json
 
 POST http://localhost:3333/tasks
 content-type: application/json
-Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI2Mzg4MDEsImV4cCI6MTc2MjY0OTYwMX0.Ax-BRfGjgCtbmPBgGHnzZW1a7L5lZxM9H4_IfbS5s-s
+Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI2NTAyMTIsImV4cCI6MTc2MjY2MTAxMn0._5uHBGCMy8wAU4gvmNzFhSVQMmsQhQflU-WVCUS6jtM
 
 {
-  "title":"Teste backend",
+  "title":" A MAIS RECENTE",
   "description":"KAKAKAKAK"
 }
+
+###
+
+GET http://localhost:3333/tasks?page=1&limit=22&completed=false
+Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI2NTAyMTIsImV4cCI6MTc2MjY2MTAxMn0._5uHBGCMy8wAU4gvmNzFhSVQMmsQhQflU-WVCUS6jtM
