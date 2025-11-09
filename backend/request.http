@@ -32,5 +32,11 @@ Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS
 
 ###
 
-GET http://localhost:3333/tasks?page=1&limit=22&completed=false
+GET http://localhost:3333/tasks?page=1&limit=22&orderBy=updateAt&completed=true
+Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI2NjEwNTEsImV4cCI6MTc2MjY3MTg1MX0.KOTY7-EtS-UXTM8G6_QTiY19VlCu4u3r7SZmaDNM_Q0
+
+
+###
+
+PATCH http://localhost:3333/tasks/019a65ed-0934-704e-a663-2703cd4c3788/complete
 Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI2NTAyMTIsImV4cCI6MTc2MjY2MTAxMn0._5uHBGCMy8wAU4gvmNzFhSVQMmsQhQflU-WVCUS6jtM
