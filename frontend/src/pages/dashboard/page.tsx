@@ -12,6 +12,9 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { getMonthAndYearCurrent } from "@/util/get-month-and-year-current";
+
+const { month, year } = getMonthAndYearCurrent()
 
 export default function Page() {
   return (
@@ -28,7 +31,9 @@ export default function Page() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage>October 2024</BreadcrumbPage>
+                  <BreadcrumbPage>
+                    <span className="capitalize mr-3">{month} </span> {year}
+                  </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

@@ -1,0 +1,15 @@
+import { Calendar } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const Logo = () => {
+  return (
+    <Link to={`/`} className="flex items-center gap-2 font-medium">
+      <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
+        <Calendar className="size-4" />
+      </div>
+      TaskM
+    </Link>
+  );
+};
+
+export default Logo;
