@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, like, type SQL } from 'drizzle-orm'
+import { and, desc, eq, like, type SQL } from 'drizzle-orm'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 import { db } from '@/db/client'
