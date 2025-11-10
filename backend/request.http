@@ -33,15 +33,23 @@ Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS
 ###
 
 GET http://localhost:3333/tasks?page=1&limit=22&orderBy=updateAt&completed=true
-Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI2OTcwMDcsImV4cCI6MTc2MjcwNzgwN30.6ToAQvqeRWGv-crcNZDFuSm57AsBb4XNIQwkqtf3lbU
-
-
+Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI3NDE1OTIsImV4cCI6MTc2Mjc1MjM5Mn0.iL0x_o60jTHNeSsfRshg7zTNU_jUIJDkt2xdmKwYjsw
 ###
 
 PATCH http://localhost:3333/tasks/019a65ed-0934-704e-a663-2703cd4c3788/complete
-Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI2OTcwMDcsImV4cCI6MTc2MjcwNzgwN30.6ToAQvqeRWGv-crcNZDFuSm57AsBb4XNIQwkqtf3lbU
-
+Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI3NDE1OTIsImV4cCI6MTc2Mjc1MjM5Mn0.iL0x_o60jTHNeSsfRshg7zTNU_jUIJDkt2xdmKwYjsw
 ###
 
 PATCH http://localhost:3333/tasks/019a65ed-0934-704e-a663-2703cd4c3788/incomplete
 Authorization:Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI2OTcwMDcsImV4cCI6MTc2MjcwNzgwN30.6ToAQvqeRWGv-crcNZDFuSm57AsBb4XNIQwkqtf3lbU
+
+###
+
+PUT http://localhost:3333/tasks/019a65ed-0934-704e-a663-2703cd4c3788
+content-type: application/json
+Authorization: Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI3NDE1OTIsImV4cCI6MTc2Mjc1MjM5Mn0.iL0x_o60jTHNeSsfRshg7zTNU_jUIJDkt2xdmKwYjsw
+
+{
+  "title":" o famoso teste de update 2 parte ultimate",
+  "description":"largatixa"
+}

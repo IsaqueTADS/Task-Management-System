@@ -1,10 +1,11 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { login } from './auth/login'
 import { register } from './auth/register'
-import { createTask } from './tasks/create-task'
-import { listTasks } from './tasks/list-task'
 import { completeTask } from './tasks/complete-task'
+import { createTask } from './tasks/create-task'
 import { incompleteTask } from './tasks/incomplete-task'
+import { listTasks } from './tasks/list-task'
+import { updateTask } from './tasks/update-task'
 
 export const registerRoutes: FastifyPluginAsyncZod = async (app) => {
   app.register(register, { prefix: '/auth' })
@@ -14,4 +15,5 @@ export const registerRoutes: FastifyPluginAsyncZod = async (app) => {
   app.register(listTasks, { prefix: '/tasks' })
   app.register(completeTask, { prefix: '/tasks' })
   app.register(incompleteTask, { prefix: '/tasks' })
+  app.register(updateTask, { prefix: '/tasks' })
 }
