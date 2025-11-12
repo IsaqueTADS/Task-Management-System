@@ -19,5 +19,9 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Desativa o aviso do Fast Refresh
+      'react-refresh/only-export-components': 'off',
+    },
   },
 ])
