@@ -14,7 +14,7 @@ POST http://localhost:3333/auth/login
 content-type: application/json
 
 {
- "email":"isaque55@gmail.com",
+ "email":"isaque5@gmail.com",
  "password":"12345678"
 }
 
@@ -53,3 +53,8 @@ Authorization: Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmO
   "title":" o famoso teste de update 2 parte ultimate",
   "description":"largatixa"
 }
+
+###
+
+GET  http://localhost:3333/users/profile
+Authorization: Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI5Njg4MDUsImV4cCI6MTc2Mjk3OTYwNX0.u_pZ7FwbuTdiQS0IHZIANQJclFmeTNFL5AZMvdPM4oc

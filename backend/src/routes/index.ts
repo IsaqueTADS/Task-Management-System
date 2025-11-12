@@ -7,6 +7,7 @@ import { deleteTask } from './tasks/delete-task'
 import { incompleteTask } from './tasks/incomplete-task'
 import { listTasks } from './tasks/list-task'
 import { updateTask } from './tasks/update-task'
+import { getUserProfile } from './users/get-user-profile'
 
 export const registerRoutes: FastifyPluginAsyncZod = async (app) => {
   app.register(register, { prefix: '/auth' })
@@ -18,4 +19,6 @@ export const registerRoutes: FastifyPluginAsyncZod = async (app) => {
   app.register(incompleteTask, { prefix: '/tasks' })
   app.register(updateTask, { prefix: '/tasks' })
   app.register(deleteTask, { prefix: '/tasks' })
+
+  app.register(getUserProfile, {prefix: "/users"})
 }
