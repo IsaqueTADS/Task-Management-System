@@ -2,8 +2,8 @@ import argon2 from 'argon2'
 import { eq } from 'drizzle-orm'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
-import { db } from '@/db/client'
-import { users } from '@/db/schema'
+import { db } from '@/db/client.ts'
+import { users } from '@/db/schema.ts'
 
 export const register: FastifyPluginAsyncZod = async (app) => {
   app.post(

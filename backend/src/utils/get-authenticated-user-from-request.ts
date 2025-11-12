@@ -1,4 +1,4 @@
-import type { FastifyRequest } from 'fastify/types/request'
+import type { FastifyRequest } from 'fastify/types/request.ts'
 
 export function getAuthenticatedUserFromRequest(request: FastifyRequest) {
   const user = request.user
@@ -9,3 +9,4 @@ export function getAuthenticatedUserFromRequest(request: FastifyRequest) {
 
   return user
 }
+

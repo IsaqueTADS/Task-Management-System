@@ -1,4 +1,8 @@
+import { existsSync, mkdirSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { fastifyCors } from '@fastify/cors'
+import fastifyStatic from '@fastify/static'
 import { fastifySwagger } from '@fastify/swagger'
 import ScalarApiReference from '@scalar/fastify-api-reference'
 import { fastify } from 'fastify'
@@ -8,8 +12,13 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
-import { env } from './env'
-import { registerRoutes } from './routes'
+import { env } from './env/index.ts'
+import { registerRoutes } from './routes/index.ts'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+const dirUploads = join(__dirname, '..', 'uploads')
 
 const envToLogger = {
   development: {
@@ -31,6 +40,17 @@ export const app = fastify({
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
+
+if (!existsSync(dirUploads)) {
+  mkdirSync(dirUploads, {
+    recursive: true,
+  })
+}
+
+app.register(fastifyStatic, {
+  root: dirUploads,
+  prefix: '/uploads/',
+})
 
 app.register(fastifyCors, {
   origin: 'http://localhost:5173',

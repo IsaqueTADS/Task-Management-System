@@ -1,14 +1,14 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
-import { login } from './auth/login'
-import { register } from './auth/register'
-import { completeTask } from './tasks/complete-task'
-import { createTask } from './tasks/create-task'
-import { deleteTask } from './tasks/delete-task'
-import { incompleteTask } from './tasks/incomplete-task'
-import { listTasks } from './tasks/list-task'
-import { updateTask } from './tasks/update-task'
-import { getUserProfile } from './users/get-user-profile'
-import { updateUsername } from './users/update-username'
+import { login } from './auth/login.ts'
+import { register } from './auth/register.ts'
+import { completeTask } from './tasks/complete-task.ts'
+import { createTask } from './tasks/create-task.ts'
+import { deleteTask } from './tasks/delete-task.ts'
+import { incompleteTask } from './tasks/incomplete-task.ts'
+import { listTasks } from './tasks/list-task.ts'
+import { updateTask } from './tasks/update-task.ts'
+import { getUserProfile } from './users/get-user-profile.ts'
+import { updateUsername } from './users/update-username.ts'
 
 export const registerRoutes: FastifyPluginAsyncZod = async (app) => {
   app.register(register, { prefix: '/auth' })
@@ -21,6 +21,6 @@ export const registerRoutes: FastifyPluginAsyncZod = async (app) => {
   app.register(updateTask, { prefix: '/tasks' })
   app.register(deleteTask, { prefix: '/tasks' })
 
-  app.register(getUserProfile, {prefix: "/users"})
-  app.register(updateUsername, {prefix: "/users"})
+  app.register(getUserProfile, { prefix: '/users' })
+  app.register(updateUsername, { prefix: '/users' })
 }

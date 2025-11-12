@@ -1,10 +1,10 @@
 import { eq } from 'drizzle-orm'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
-import { db } from '@/db/client'
-import { users } from '@/db/schema'
-import { checkRequestJWT } from '@/middleware/check-request-jwt'
-import { getAuthenticatedUserFromRequest } from '@/utils/get-authenticated-user-from-request'
+import { db } from '@/db/client.ts'
+import { users } from '@/db/schema.ts'
+import { checkRequestJWT } from '@/middleware/check-request-jwt.ts'
+import { getAuthenticatedUserFromRequest } from '@/utils/get-authenticated-user-from-request.ts'
 export const updateUsername: FastifyPluginAsyncZod = async (app) => {
   app.patch(
     '/username',

@@ -49,3 +49,6 @@ temp/
 
 # Debug
 .debug
+
+#FastifyStatic
+/uploads
