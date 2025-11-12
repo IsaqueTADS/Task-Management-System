@@ -1,9 +1,11 @@
 import { eq } from 'drizzle-orm'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
+import { email, z } from 'zod'
 import { db } from '@/db/client'
 import { users } from '@/db/schema'
 import { checkRequestJWT } from '@/middleware/check-request-jwt'
 import { getAuthenticatedUserFromRequest } from '@/utils/get-authenticated-user-from-request'
+
 export const getUserProfile: FastifyPluginAsyncZod = async (app) => {
   app.get(
     '/profile',
@@ -12,6 +14,16 @@ export const getUserProfile: FastifyPluginAsyncZod = async (app) => {
       schema: {
         tags: ['Users'],
         summary: 'get  user profile',
+        response: {
+          200: z.object({
+            user: z.object({
+              username: z.string(),
+              email: z.email(),
+              createAt: z.date(),
+              updateAt: z.date(),
+            }),
+          }),
+        },
       },
     },
     async (request, reply) => {
