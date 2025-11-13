@@ -8,6 +8,7 @@ import { incompleteTask } from './tasks/incomplete-task.ts'
 import { listTasks } from './tasks/list-task.ts'
 import { updateTask } from './tasks/update-task.ts'
 import { getUserProfile } from './users/get-user-profile.ts'
+import { updateUserAvatar } from './users/update-user-avatar.ts'
 import { updateUsername } from './users/update-username.ts'
 
 export const registerRoutes: FastifyPluginAsyncZod = async (app) => {
@@ -23,4 +24,5 @@ export const registerRoutes: FastifyPluginAsyncZod = async (app) => {
 
   app.register(getUserProfile, { prefix: '/users' })
   app.register(updateUsername, { prefix: '/users' })
+  app.register(updateUserAvatar, { prefix: '/users' })
 }

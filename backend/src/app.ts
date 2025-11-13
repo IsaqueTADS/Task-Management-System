@@ -2,6 +2,7 @@ import { existsSync, mkdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { fastifyCors } from '@fastify/cors'
+import FastifyMultipart from '@fastify/multipart'
 import fastifyStatic from '@fastify/static'
 import { fastifySwagger } from '@fastify/swagger'
 import ScalarApiReference from '@scalar/fastify-api-reference'
@@ -50,6 +51,11 @@ if (!existsSync(dirUploads)) {
 app.register(fastifyStatic, {
   root: dirUploads,
   prefix: '/uploads/',
+})
+app.register(FastifyMultipart, {
+  limits: {
+    fileSize: 29 * 1024 * 1024, // 29 MB
+  },
 })
 
 app.register(fastifyCors, {

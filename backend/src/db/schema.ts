@@ -12,6 +12,7 @@ export const users = mysqlTable('users', {
     .primaryKey()
     .$defaultFn(() => uuidv7()),
   username: varchar({ length: 50 }).notNull(),
+  avatarUrl: text("avatar_url"),
   email: varchar({ length: 255 }).notNull().unique(),
   passwordHash: varchar('password_hash', { length: 255 }).notNull(),
   createAt: timestamp('create_at').defaultNow().notNull(),

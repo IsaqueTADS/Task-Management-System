@@ -68,3 +68,7 @@ Authorization: Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmO
 {
   "username": "O TADS"
 }
+
+###
+PATCH http://localhost:3333/users/avatar
+Authorization: Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjI5OTEzMjAsImV4cCI6MTc2MzAwMjEyMH0.UCRQ4oJ4aH-tW6mgPKpYV2d_otKUuF3GTpNuwlw27U4
