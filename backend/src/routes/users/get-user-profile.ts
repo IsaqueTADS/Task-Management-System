@@ -19,6 +19,7 @@ export const getUserProfile: FastifyPluginAsyncZod = async (app) => {
             user: z.object({
               username: z.string(),
               email: z.email(),
+              avatarUrl: z.string().nullable(),
               createAt: z.date(),
               updateAt: z.date(),
             }),
@@ -33,6 +34,7 @@ export const getUserProfile: FastifyPluginAsyncZod = async (app) => {
         .select({
           username: users.username,
           email: users.email,
+          avatarUrl: users.avatarUrl,
           createAt: users.createAt,
           updateAt: users.updateAt,
         })

@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import jwt from 'jsonwebtoken'
-import { env } from '@/env'
+import { env } from '@/env/index.ts'
 
 interface JWTPayload {
   sub: string
