@@ -24,7 +24,13 @@ export function SignupForm({
         </div>
         <Field>
           <FieldLabel htmlFor="name">Nome completo</FieldLabel>
-          <Input id="name" type="text" placeholder="João Silva" required />
+          <Input
+            id="name"
+            type="text"
+            placeholder="João Silva"
+            autoComplete="name"
+            required
+          />
         </Field>
         <Field>
           <FieldLabel htmlFor="email">E-mail</FieldLabel>
@@ -32,17 +38,28 @@ export function SignupForm({
             id="email"
             type="email"
             placeholder="exemplo@dominio.com"
+            autoComplete="email"
             required
           />
         </Field>
         <Field>
           <FieldLabel htmlFor="password">Senha</FieldLabel>
-          <Input id="password" type="password" required />
+          <Input
+            id="password"
+            type="password"
+            autoComplete="new-password"
+            required
+          />
           <FieldDescription>Deve ter pelo menos 8 caracteres.</FieldDescription>
         </Field>
         <Field>
           <FieldLabel htmlFor="confirm-password">Confirmar senha</FieldLabel>
-          <Input id="confirm-password" type="password" required />
+          <Input
+            id="confirm-password"
+            type="password"
+            autoComplete="new-password"
+            required
+          />
           <FieldDescription>Por favor, confirme sua senha.</FieldDescription>
         </Field>
         <Field>

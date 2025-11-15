@@ -46,7 +46,6 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
       window.localStorage.setItem("token", json.token);
       navigate("/");
     } catch (err) {
-      setLoading(false);
       setIsLogin(false);
       if (err instanceof Error) setError(err.message);
       console.log("Erro", err);
@@ -67,6 +66,7 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
     const getUserProfile = async () => {
       const { url, options } = USER_PROFILE_GET();
       try {
+        setLoading(true);
         const response = await fetch(url, options);
         if (!response.ok) {
           const error = await response.json();
@@ -74,14 +74,17 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
         }
         const json = await response.json();
         setUserData(json);
+        setIsLogin(true);
       } catch (err) {
         if (err instanceof Error) {
           navigate("/login");
         }
+      } finally {
+        setLoading(false);
       }
     };
     getUserProfile();
-  }, []);
+  }, [navigate]);
 
   return (
     <UserContext.Provider
