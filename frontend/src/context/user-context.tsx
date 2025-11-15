@@ -7,6 +7,8 @@ interface UserContext {
   loading: boolean;
   error: string | null;
   userData: UserData | null;
+  isLogin: boolean | null;
+  logoutUser: () => void;
 }
 
 export const UserContext = React.createContext<UserContext | null>(null);
@@ -22,7 +24,7 @@ export const useUser = () => {
 
 const UserStorage = ({ children }: React.PropsWithChildren) => {
   const [userData, setUserData] = React.useState<UserData | null>(null);
-  // const [isLogin, setIsLogin] = React.useState(null);
+  const [isLogin, setIsLogin] = React.useState<boolean | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const navigate = useNavigate();
@@ -34,15 +36,15 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
       const { url, options } = LOGIN_USER_POST({ email, password });
       const response = await fetch(url, options);
 
-      if (response.ok) {
-        const json = await response.json();
-        console.log(json);
-        window.localStorage.setItem("token", json.token);
-        navigate("/");
+      if (!response.ok) {
+        const err = await response.json();
+        setError(err.message);
       }
 
-      const err = await response.json();
-      setError(err.message);
+      const json = await response.json();
+      setIsLogin(true);
+      window.localStorage.setItem("token", json.token);
+      navigate("/");
     } catch (err) {
       setLoading(false);
       if (err instanceof Error) setError(err.message);
@@ -50,6 +52,14 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const logoutUser = () => {
+    window.localStorage.removeItem("token");
+    setError(null);
+    setLoading(false);
+    setIsLogin(false);
+    navigate("/login");
   };
 
   React.useEffect(() => {
@@ -65,7 +75,7 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
         setUserData(json);
       } catch (err) {
         if (err instanceof Error) {
-          setError(err.message);
+          navigate("/login")
         }
       }
     };
@@ -73,7 +83,9 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ loginUser, loading, error, userData }}>
+    <UserContext.Provider
+      value={{ loginUser, loading, error, userData, isLogin, logoutUser }}
+    >
       {children}
     </UserContext.Provider>
   );

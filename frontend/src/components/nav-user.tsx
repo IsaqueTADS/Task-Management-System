@@ -27,12 +27,13 @@ import { API_URL } from "@/config/api";
 
 export function NavUser({
   user,
+  logoutUser,
 }: {
-  user: User
+  user: User;
+  logoutUser: () => void;
 }) {
   const { isMobile } = useSidebar();
-
-  console.log(`${API_URL}${user.avatarUrl}`)
+  const avatarUrl = `${API_URL}${user.avatarUrl}`;
 
   return (
     <SidebarMenu>
@@ -44,10 +45,7 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage
-                  src={`${API_URL}${user.avatarUrl}`}
-                  alt={user.username}
-                />
+                <AvatarImage src={avatarUrl} alt={user.username} />
                 <AvatarFallback className="rounded-lg">TSM</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -66,7 +64,7 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatarUrl} alt={user.username} />
+                  <AvatarImage src={avatarUrl} alt={user.username} />
                   <AvatarFallback className="rounded-lg">TSM</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -98,9 +96,9 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => logoutUser()}>
               <LogOut />
-              Log out
+              Sair
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

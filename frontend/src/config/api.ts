@@ -16,8 +16,9 @@ export function USER_PROFILE_GET() {
     url: `${API_URL}/users/profile`,
     options: {
       headers: {
-        Authorization: `Berear ${window.localStorage.getItem("token")}`,
+        Authorization: `Berear ${window.localStorage.getItem("token")|| ""}`,
       }
     },
   };
 }
+ 

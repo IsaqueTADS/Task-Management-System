@@ -17,16 +17,15 @@ import { Link } from "react-router-dom";
 import { useUser } from "@/context/user-context";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { userData } = useUser();
+  const { userData, logoutUser } = useUser();
 
-  console.log(userData)
 
-  if(!userData) return null;
+  // if(!userData) return null;
 
   return (
     <Sidebar {...props}>
       <SidebarHeader className="border-sidebar-border h-16 border-b">
-        <NavUser user={userData.user} />
+         <NavUser user={userData && userData.user } logoutUser={logoutUser} />
       </SidebarHeader>
       <SidebarContent>
         <DatePicker />
@@ -35,7 +34,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-           
             <div className="flex justify-between">
               <Button variant="outline">
                 <Link to={"/signup"}>Cadastrar-se</Link>
