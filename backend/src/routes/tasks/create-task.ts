@@ -1,9 +1,9 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
-import { db } from '@/db/client'
-import { tasks } from '@/db/schema'
-import { checkRequestJWT } from '@/middleware/check-request-jwt'
-import { getAuthenticatedUserFromRequest } from '@/utils/get-authenticated-user-from-request'
+import { db } from '@/db/client.ts'
+import { tasks } from '@/db/schema.ts'
+import { checkRequestJWT } from '@/middleware/check-request-jwt.ts'
+import { getAuthenticatedUserFromRequest } from '@/utils/get-authenticated-user-from-request.ts'
 
 export const createTask: FastifyPluginAsyncZod = async (app) => {
   app.post(
@@ -13,6 +13,7 @@ export const createTask: FastifyPluginAsyncZod = async (app) => {
       schema: {
         tags: ['Tasks'],
         summary: 'create task',
+        security: [{ bearerAuth: [] }],
         body: z
           .object({
             title: z.string().min(5).max(255),

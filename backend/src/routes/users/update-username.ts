@@ -13,6 +13,9 @@ export const updateUsername: FastifyPluginAsyncZod = async (app) => {
       schema: {
         tags: ['Users'],
         summary: 'update username',
+        security: [
+          { bearerAuth: [] }, 
+        ],
         body: z.object({
           username: z.string().min(5).max(255),
         }),

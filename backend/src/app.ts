@@ -74,6 +74,15 @@ app.register(fastifySwagger, {
         'API RESTful para gerenciamento de tarefas, permitindo criação, edição, conclusão, listagem e exclusão de tarefas',
       version: '1.0.0',
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
   },
   transform: jsonSchemaTransform,
 })

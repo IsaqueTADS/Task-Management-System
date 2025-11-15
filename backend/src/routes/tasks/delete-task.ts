@@ -1,10 +1,10 @@
-import { and, eq, type SQL } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
-import { db } from '@/db/client'
-import { tasks } from '@/db/schema'
-import { checkRequestJWT } from '@/middleware/check-request-jwt'
-import { getAuthenticatedUserFromRequest } from '@/utils/get-authenticated-user-from-request'
+import { db } from '@/db/client.ts'
+import { tasks } from '@/db/schema.ts'
+import { checkRequestJWT } from '@/middleware/check-request-jwt.ts'
+import { getAuthenticatedUserFromRequest } from '@/utils/get-authenticated-user-from-request.ts'
 
 export const deleteTask: FastifyPluginAsyncZod = async (app) => {
   app.delete(
@@ -14,6 +14,7 @@ export const deleteTask: FastifyPluginAsyncZod = async (app) => {
       schema: {
         tags: ['Tasks'],
         summary: 'delete task',
+        security: [{ bearerAuth: [] }],
         params: z.object({
           taskId: z.string(),
         }),

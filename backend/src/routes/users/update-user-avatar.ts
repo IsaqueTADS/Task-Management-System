@@ -16,6 +16,7 @@ export const updateUserAvatar: FastifyPluginAsyncZod = async (app) => {
       schema: {
         tags: ['Users'],
         summary: 'update user avatar',
+        security: [{ bearerAuth: [] }],
         consumes: ['multipart/form-data'],
         response: {
           200: z.void(),
