@@ -14,33 +14,28 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-
-// This is sample data.
-const data = {
-  user: {
-    name: "Isaque",
-    email: "isaque@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
- 
-};
+import { useUser } from "@/context/user-context";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { userData } = useUser();
+
+  console.log(userData)
+
+  if(!userData) return null;
+
   return (
     <Sidebar {...props}>
       <SidebarHeader className="border-sidebar-border h-16 border-b">
-        <NavUser user={data.user} />
+        <NavUser user={userData.user} />
       </SidebarHeader>
       <SidebarContent>
         <DatePicker />
         <SidebarSeparator className="mx-0" />
-     
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            {/* <Plus />
-              <span>New Calendar</span> */}
+           
             <div className="flex justify-between">
               <Button variant="outline">
                 <Link to={"/signup"}>Cadastrar-se</Link>
