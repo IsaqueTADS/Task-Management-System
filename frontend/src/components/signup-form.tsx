@@ -8,13 +8,24 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
+import useForm from "@/hooks/use-form";
+import Error from "@/helpers/error";
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const username = useForm(false);
+  const email = useForm("email");
+  const password = useForm("password");
+  const repeatPassword = useForm(false);
+
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      noValidate
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+    >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">Crie sua conta</h1>
@@ -23,13 +34,16 @@ export function SignupForm({
           </p>
         </div>
         <Field>
-          <FieldLabel htmlFor="name">Nome completo</FieldLabel>
+          <FieldLabel htmlFor="username">Nome completo</FieldLabel>
           <Input
-            id="name"
+            id="username"
             type="text"
-            placeholder="João Silva"
-            autoComplete="name"
+            placeholder="Isaque TADS"
+            autoComplete="username"
             required
+            value={username.value}
+            onChange={username.onChange}
+            onBlur={username.onBlur}
           />
         </Field>
         <Field>
@@ -40,7 +54,11 @@ export function SignupForm({
             placeholder="exemplo@dominio.com"
             autoComplete="email"
             required
+            value={email.value}
+            onChange={email.onChange}
+            onBlur={email.onBlur}
           />
+          <Error>{email.error}</Error>
         </Field>
         <Field>
           <FieldLabel htmlFor="password">Senha</FieldLabel>
@@ -49,7 +67,11 @@ export function SignupForm({
             type="password"
             autoComplete="new-password"
             required
+            value={password.value}
+            onChange={password.onChange}
+            onBlur={password.onBlur}
           />
+          <Error>{password.error}</Error>
           <FieldDescription>Deve ter pelo menos 8 caracteres.</FieldDescription>
         </Field>
         <Field>
@@ -59,6 +81,9 @@ export function SignupForm({
             type="password"
             autoComplete="new-password"
             required
+            value={repeatPassword.value}
+            onChange={repeatPassword.onChange}
+            onBlur={repeatPassword.onBlur}
           />
           <FieldDescription>Por favor, confirme sua senha.</FieldDescription>
         </Field>

@@ -11,24 +11,27 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { useUser } from "@/context/user-context";
 import { ButtonLoading } from "./button-loading";
-import Error from "@/helpers/Error";
+import Error from "@/helpers/error";
+import useForm from "@/hooks/use-form";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const email = useForm("email");
+  const password = useForm(false);
 
   const { loginUser, loading, error } = useUser();
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    loginUser(email, password);
+    if (email.validate() && password.validate())
+      loginUser(email.value, password.value);
   }
 
   return (
     <form
+      noValidate
       className={cn("flex flex-col gap-6", className)}
       {...props}
       onSubmit={handleSubmit}
@@ -45,12 +48,14 @@ export function LoginForm({
           <Input
             id="email"
             type="email"
-            value={email}
-            onChange={({ currentTarget }) => setEmail(currentTarget.value)}
+            value={email.value}
+            onChange={email.onChange}
+            onBlur={email.onBlur}
             placeholder="m@example.com"
             autoComplete="email"
             required
           />
+          <Error>{email.error}</Error>
         </Field>
         <Field>
           <div className="flex items-center">
@@ -65,11 +70,13 @@ export function LoginForm({
           <Input
             id="password"
             type="password"
-            value={password}
-            onChange={({ currentTarget }) => setPassword(currentTarget.value)}
+            value={password.value}
+            onChange={password.onChange}
+            onBlur={password.onBlur}
             autoComplete="current-password"
             required
           />
+          <Error>{password.error}</Error>
         </Field>
         <Field>
           {loading ? (

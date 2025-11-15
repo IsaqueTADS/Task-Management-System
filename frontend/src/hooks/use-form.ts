@@ -18,7 +18,7 @@ const types = {
   },
 };
 
-type FieldType = keyof typeof types | false;
+type FieldType = keyof typeof types | false ;
 
 export function useForm(type: FieldType) {
   const [value, setValue] = React.useState<string>("");
