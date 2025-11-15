@@ -19,13 +19,12 @@ import { useUser } from "@/context/user-context";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { userData, logoutUser } = useUser();
 
-
-  // if(!userData) return null;
+  if (!userData) return null;
 
   return (
     <Sidebar {...props}>
       <SidebarHeader className="border-sidebar-border h-16 border-b">
-         <NavUser user={userData && userData.user } logoutUser={logoutUser} />
+        <NavUser user={ userData.user} logoutUser={logoutUser} />
       </SidebarHeader>
       <SidebarContent>
         <DatePicker />

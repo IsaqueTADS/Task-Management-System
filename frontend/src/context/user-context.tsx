@@ -47,6 +47,7 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
       navigate("/");
     } catch (err) {
       setLoading(false);
+      setIsLogin(false);
       if (err instanceof Error) setError(err.message);
       console.log("Erro", err);
     } finally {
@@ -75,7 +76,7 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
         setUserData(json);
       } catch (err) {
         if (err instanceof Error) {
-          navigate("/login")
+          navigate("/login");
         }
       }
     };
