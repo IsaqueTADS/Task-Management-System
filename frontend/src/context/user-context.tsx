@@ -54,13 +54,15 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
     }
   };
 
-  const logoutUser = () => {
-    window.localStorage.removeItem("token");
-    setError(null);
-    setLoading(false);
-    setIsLogin(false);
-    navigate("/login");
-  };
+  const logoutUser = React.useCallback(
+    function () {
+      window.localStorage.removeItem("token");
+      setError(null);
+      setLoading(false);
+      setIsLogin(false);
+    },
+    []
+  );
 
   React.useEffect(() => {
     const getUserProfile = async () => {
@@ -77,14 +79,14 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
         setIsLogin(true);
       } catch (err) {
         if (err instanceof Error) {
-          navigate("/login");
+          logoutUser();
         }
       } finally {
         setLoading(false);
       }
     };
     getUserProfile();
-  }, [navigate]);
+  }, [navigate, logoutUser]);
 
   return (
     <UserContext.Provider
