@@ -118,13 +118,13 @@ export function SignupForm({
               if (password.value === target.value) {
                 setMessage("");
               } else {
-                setMessage("As senhas não coicidem");
+                setMessage("As senhas não coincidem");
               }
             }}
             onBlur={({ target }) =>
               password.value === target.value
                 ? setMessage("")
-                : setMessage("As senhas não coicidem")
+                : setMessage("As senhas não coincidem")
             }
           />
           <Error>{message}</Error>
