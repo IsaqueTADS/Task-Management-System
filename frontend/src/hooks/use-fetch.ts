@@ -1,53 +1,43 @@
-import React from 'react';
+import React from "react";
 
-interface FetchState<T> {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
-}
-
-function useFetch<T>(
-  url: RequestInfo | URL,
-  options?: RequestInit,
-): FetchState<T> {
-  const [data, setData] = React.useState<T | null>(null);
+export const useFetch = () => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
-  const optionsRef = React.useRef(options);
-  optionsRef.current = options;
-
-  React.useEffect(() => {
+  const request = async <T>(
+    url: RequestInfo | URL,
+    options?: RequestInit
+  ): Promise<{ json: T; response: Response }> => {
     const controller = new AbortController();
     const { signal } = controller;
 
-    const fetchData = async () => {
+    let response: Response;
+    let json: T;
+
+    try {
       setLoading(true);
-      setData(null);
-      try {
-        const response = await fetch(url, {
-          signal,
-          ...optionsRef.current,
-        });
-        if (!response.ok) throw new Error(`Error: ${response.status}`);
-        const data = (await response.json()) as T;
-        // console.log(data)
-        if (!signal.aborted) setData(data);
-      } catch (error) {
-        if (!signal.aborted && error instanceof Error) setError(error.message);
-      } finally {
-        if (!signal.aborted) setLoading(false);
+      setError(null);
+
+      response = await fetch(url, {
+        signal,
+        ...options,
+      });
+
+      json = await response.json();
+
+      if (!response.ok) {
+        throw new Error(JSON.stringify(json));
       }
-    };
+    } catch (err) {
+      if (!signal.aborted && err instanceof Error)
+        setError(err.message ?? "Erro desconhecido");
+      throw err;
+    } finally {
+      setLoading(false);
+    }
 
-    fetchData();
+    return { json, response };
+  };
 
-    return () => {
-      controller.abort();
-    };
-  }, [url]);
-
-  return { data, loading, error };
-}
-
-export default useFetch;
+  return { loading, error, request };
+};
