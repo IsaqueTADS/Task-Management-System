@@ -10,6 +10,11 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import useForm from "@/hooks/use-form";
 import Error from "@/helpers/error";
+import React from "react";
+import { useFetch } from "@/hooks/use-fetch";
+import { useUser } from "@/context/user-context";
+import { REGISTER_USER_POST } from "@/config/api";
+import { ButtonLoading } from "./button-loading";
 
 export function SignupForm({
   className,
@@ -18,11 +23,37 @@ export function SignupForm({
   const username = useForm(false);
   const email = useForm("email");
   const password = useForm("password");
-  const repeatPassword = useForm(false);
+  const [repeatPassword, setRepeatPassword] = React.useState("");
+  const [message, setMessage] = React.useState("");
+
+  const { request, loading, error } = useFetch();
+  const { loginUser } = useUser();
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+
+    const { url, options } = REGISTER_USER_POST({
+      username: username.value,
+      email: email.value,
+      password: password.value,
+    });
+    if (
+      password.value === repeatPassword &&
+      email.validate() &&
+      password.validate()
+    ) {
+      const { response } = await request(url, options);
+
+      if (response.ok) {
+        loginUser(email.value, password.value);
+      }
+    }
+  }
 
   return (
     <form
       noValidate
+      onSubmit={handleSubmit}
       className={cn("flex flex-col gap-6", className)}
       {...props}
     >
@@ -81,14 +112,32 @@ export function SignupForm({
             type="password"
             autoComplete="new-password"
             required
-            value={repeatPassword.value}
-            onChange={repeatPassword.onChange}
-            onBlur={repeatPassword.onBlur}
+            value={repeatPassword}
+            onChange={({ target }) => {
+              setRepeatPassword(target.value);
+              if (password.value === target.value) {
+                setMessage("");
+              } else {
+                setMessage("As senhas não coicidem");
+              }
+            }}
+            onBlur={({ target }) =>
+              password.value === target.value
+                ? setMessage("")
+                : setMessage("As senhas não coicidem")
+            }
           />
+          <Error>{message}</Error>
           <FieldDescription>Por favor, confirme sua senha.</FieldDescription>
         </Field>
         <Field>
-          <Button type="submit">Criar conta</Button>
+          {loading ? (
+            <ButtonLoading>Registrando</ButtonLoading>
+          ) : (
+            <Button type="submit">Criar conta</Button>
+          )}
+
+          <Error>{error}</Error>
           <FieldDescription className="px-6 text-center">
             Já tem uma conta? <Link to={"/login"}>Entrar</Link>
           </FieldDescription>

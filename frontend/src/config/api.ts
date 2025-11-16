@@ -22,3 +22,20 @@ export function USER_PROFILE_GET() {
   };
 }
  
+
+export function REGISTER_USER_POST(body: {
+  username: string;
+  email: string;
+  password: string;
+}) {
+  return {
+    url: `${API_URL}/auth/register`,
+    options: {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}

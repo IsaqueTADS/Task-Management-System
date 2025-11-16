@@ -1,6 +1,18 @@
 import React from "react";
 
-export const useFetch = () => {
+interface UseFetchResponse {
+  loading: boolean;
+  error: string | null;
+  request: <T>(
+    url: RequestInfo | URL,
+    options?: RequestInit
+  ) => Promise<{
+    json: T;
+    response: Response;
+  }>;
+}
+
+export const useFetch = (): UseFetchResponse => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -23,11 +35,12 @@ export const useFetch = () => {
         ...options,
       });
 
-      json = await response.json();
-
       if (!response.ok) {
-        throw new Error(JSON.stringify(json));
+        const error = await response.json();
+        throw new Error(error.message);
       }
+
+      json = await response.json();
     } catch (err) {
       if (!signal.aborted && err instanceof Error)
         setError(err.message ?? "Erro desconhecido");
