@@ -12,7 +12,7 @@ const SearchFiltro = ({ value, setValue }: SearchProps) => {
     <div className="flex items-center gap-3 ">
       <Input
         type="text"
-        className="w-auto"
+        className="w-[400px]"
         placeholder="Titulo da task..."
         value={value}
         onChange={({ currentTarget }) => setValue(currentTarget.value)}
