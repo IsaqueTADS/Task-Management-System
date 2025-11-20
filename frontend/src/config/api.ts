@@ -60,3 +60,26 @@ export function LIST_TASK_GET() {
   };
 }
 
+export function COMPLETE_TASK_PATCH(taskId: string) {
+  return {
+    url: `${API_URL}/tasks/${taskId}/complete`,
+    options: {
+      method: "PATCH",
+      headers: {
+        Authorization: `Berear ${window.localStorage.getItem("token") || ""}`,
+      },
+    },
+  };
+}
+
+export function INCOMPLETE_TASK_PATCH(taskId: string) {
+  return {
+    url: `${API_URL}/tasks/${taskId}/incomplete`,
+    options: {
+      method: "PATCH",
+      headers: {
+        Authorization: `Berear ${window.localStorage.getItem("token") || ""}`,
+      },
+    },
+  };
+}

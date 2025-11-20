@@ -5,15 +5,17 @@ import { useClock } from "@/hooks/useClock";
 import React from "react";
 import Search from "@/components/search";
 
-import { useUser } from "@/context/user-context";
+
+import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Plus } from "lucide-react";
 
 const TaskPage = () => {
   const { loading, error, request } = useFetch();
   const [tasks, setTasks] = React.useState<Task[] | null>(null);
   const [search, setSearch] = React.useState("");
-  const { userData } = useUser();
-  const user = userData?.user;
-  const avatarUrl = `${API_URL}${user?.avatarUrl}`;
+
+  const isMobile = useIsMobile();
 
   const time = useClock();
 
@@ -56,12 +58,27 @@ const TaskPage = () => {
 
         <div className="flex justify-between">
           <Search value={search} setValue={setSearch} />
+
+          {!isMobile && (
+            <Button size={"lg"}>
+              {" "}
+              Nova Task
+              <Plus className="h-15" />
+            </Button>
+          )}
         </div>
 
         <div className="bg-muted min-h-[100vh] flex-1 rounded-xl md:min-h-min">
           <div className="flex flex-1 flex-col gap-4 p-4">
-            <h2 className="text-2xl font-semibold">Minhas Tarefas</h2>
-            <div></div>
+            <div className="flex justify-between">
+              <h2 className="text-2xl font-semibold mb-5">Minhas Tarefas</h2>
+              {isMobile && (
+                <Button size={"lg"}>
+                  {" "}
+                  <Plus className="h-15" />
+                </Button>
+              )}
+            </div>
             <div className="grid auto-rows-min gap-4 md:grid-cols-4">
               {tasks &&
                 tasks.map((task) => <TaskCard key={task.id} task={task} />)}
