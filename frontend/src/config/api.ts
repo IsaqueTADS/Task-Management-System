@@ -49,3 +49,14 @@ export function TOKEN_VALIDATE_GET() {
     },
   };
 }
+export function LIST_TASK_GET() {
+  return {
+    url: `${API_URL}/tasks`,
+    options: {
+      headers: {
+        Authorization: `Berear ${window.localStorage.getItem("token") || ""}`,
+      },
+    },
+  };
+}
+
