@@ -20,7 +20,7 @@ const TaskPage = () => {
     };
 
     getTask();
-  }, []);
+  }, [request]);
 
   if (loading) return <Loading />;
   if (error) return null;
