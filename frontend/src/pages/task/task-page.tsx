@@ -6,7 +6,7 @@ import React from "react";
 
 const TaskPage = () => {
   const { loading, error, request } = useFetch();
-  const [task, setTask] = React.useState<Task[] | null>(null);
+  const [tasks, setTasks] = React.useState<Task[] | null>(null);
 
   React.useEffect(() => {
     const { url, options } = LIST_TASK_GET();
@@ -16,7 +16,7 @@ const TaskPage = () => {
     const getTask = async () => {
       const { json } = await request<Tasks>(`${url}`, options);
 
-      setTask(json.tasks);
+      setTasks(json.tasks);
     };
 
     getTask();
@@ -25,14 +25,10 @@ const TaskPage = () => {
   if (loading) return <Loading />;
   if (error) return null;
 
-  console.log(task);
-
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">
       <div className="grid auto-rows-min gap-4 md:grid-cols-5">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <TaskCard key={i} />
-        ))}
+        {tasks && tasks.map((task) => <TaskCard key={task.id} task={task} />)}
       </div>
     </div>
   );
