@@ -76,6 +76,10 @@
   --sidebar-ring: oklch(0.702 0.183 293.541);
 }
 
+:root {
+  --font-primary: "Fira Code", sans-serif;
+}
+
 .dark {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
@@ -110,6 +114,9 @@
   --sidebar-ring: oklch(0.38 0.189 293.745);
 }
 
+body {
+  font-family: var(--font-primary);
+}
 
 @layer base {
   * {
