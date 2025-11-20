@@ -12,19 +12,18 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
 import { useUser } from "@/context/user-context";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { userData, logoutUser } = useUser();
+
 
   if (!userData) return null;
 
   return (
     <Sidebar {...props}>
       <SidebarHeader className="border-sidebar-border h-16 border-b">
-        <NavUser user={ userData.user} logoutUser={logoutUser} />
+        <NavUser user={userData.user} logoutUser={logoutUser} />
       </SidebarHeader>
       <SidebarContent>
         <DatePicker />
@@ -34,12 +33,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <div className="flex justify-between">
-              <Button variant="outline">
+              {/* <Button variant="outline">
                 <Link to={"/signup"}>Cadastrar-se</Link>
               </Button>
               <Button>
                 <Link to={"/login"}>logar</Link>
-              </Button>
+              </Button> */}
             </div>
           </SidebarMenuItem>
         </SidebarMenu>

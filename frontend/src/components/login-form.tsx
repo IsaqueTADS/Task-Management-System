@@ -88,7 +88,7 @@ export function LoginForm({
             <Error>{error}</Error>
           </FieldDescription>
           <FieldDescription className="text-center">
-            Não tem uma conta? <Link to={"/signup"}>Cadastrar-se</Link>
+            Não tem uma conta? <Link to={"/auth/signup"}>Cadastrar-se</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>

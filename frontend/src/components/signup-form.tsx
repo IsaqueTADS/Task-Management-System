@@ -139,7 +139,7 @@ export function SignupForm({
 
           <Error>{error}</Error>
           <FieldDescription className="px-6 text-center">
-            Já tem uma conta? <Link to={"/login"}>Entrar</Link>
+            Já tem uma conta? <Link to={"/auth/login"}>Entrar</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>

@@ -8,8 +8,8 @@ const ProtectRoute = ({ children }: React.PropsWithChildren) => {
   console.log("islogin", isLogin);
 
   if (isLogin === true) return children;
-  else if (isLogin === false || isLogin === null) {
-    return <Navigate to={"/login"} />;
+  else if (isLogin === false ) {
+    return <Navigate to={"/auth/login"} />;
   } else {
     return <></>;
   }

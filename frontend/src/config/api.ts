@@ -16,12 +16,11 @@ export function USER_PROFILE_GET() {
     url: `${API_URL}/users/profile`,
     options: {
       headers: {
-        Authorization: `Berear ${window.localStorage.getItem("token")|| ""}`,
-      }
+        Authorization: `Berear ${window.localStorage.getItem("token") || ""}`,
+      },
     },
   };
 }
- 
 
 export function REGISTER_USER_POST(body: {
   username: string;
@@ -36,6 +35,17 @@ export function REGISTER_USER_POST(body: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
+    },
+  };
+}
+
+export function TOKEN_VALIDATE_GET() {
+  return {
+    url: `${API_URL}/auth/token/validate`,
+    options: {
+      headers: {
+        Authorization: `Berear ${window.localStorage.getItem("token") || ""}`,
+      },
     },
   };
 }

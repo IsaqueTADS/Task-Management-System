@@ -1,4 +1,8 @@
-import { LOGIN_USER_POST, USER_PROFILE_GET } from "@/config/api";
+import {
+  LOGIN_USER_POST,
+  TOKEN_VALIDATE_GET,
+  USER_PROFILE_GET,
+} from "@/config/api";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -57,21 +61,10 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
 
   const getUserProfile = async () => {
     const { url, options } = USER_PROFILE_GET();
-    try {
-      setLoading(true);
-      const response = await fetch(url, options);
-      if (!response.ok) {
-        const error = await response.json();
-        console.log("TESTE ERROR:", error);
-      }
-      const json = await response.json();
-      setIsLogin(true);
-      setUserData(json);
-    } catch {
-      logoutUser();
-    } finally {
-      setLoading(false);
-    }
+    const response = await fetch(url, options);
+    const json = await response.json();
+    setIsLogin(true);
+    setUserData(json);
   };
 
   const logoutUser = React.useCallback(function () {
@@ -83,19 +76,27 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
 
   React.useEffect(() => {
     const autoLogin = async () => {
-      const { url, options } = USER_PROFILE_GET();
-      try {
-        setLoading(true);
-        const response = await fetch(url, options);
-        if (!response.ok) {
-          const error = await response.json();
-          console.log("TESTE ERROR:", error);
+      const token = window.localStorage.getItem("token");
+      const { url, options } = TOKEN_VALIDATE_GET();
+
+      if (token) {
+        try {
+          setLoading(true);
+          const response = await fetch(url, options);
+          if (!response.ok) {
+            const error = await response.json();
+            console.log("TESTE ERROR:", error);
+          }
+          console.log("logou");
+          setIsLogin(true);
+          await getUserProfile();
+        } catch {
+          logoutUser();
+        } finally {
+          setLoading(false);
         }
-        setIsLogin(true);
-      } catch {
-        logoutUser();
-      } finally {
-        setLoading(false);
+      } else {
+        setIsLogin(false);
       }
     };
     autoLogin();
