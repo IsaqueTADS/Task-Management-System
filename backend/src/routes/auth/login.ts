@@ -3,9 +3,9 @@ import { eq } from 'drizzle-orm'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import jwt from 'jsonwebtoken'
 import { z } from 'zod'
-import { db } from '@/db/client'
-import { users } from '@/db/schema'
-import { env } from '@/env'
+import { db } from '@/db/client.ts'
+import { users } from '@/db/schema.ts'
+import { env } from '@/env/index.ts'
 
 export const login: FastifyPluginAsyncZod = async (app) => {
   app.post(

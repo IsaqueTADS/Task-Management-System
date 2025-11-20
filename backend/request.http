@@ -18,6 +18,11 @@ content-type: application/json
  "password":"12345678"
 }
 
+###
+
+GET http://localhost:3333/auth/token/validate
+Authorization: Berear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTlhNjRmOS1hOWFlLTcyMTktYTdhYS00MGY0NjM5YTFhNjEiLCJpYXQiOjE3NjM2NTQ1NjUsImV4cCI6MTc2MzY2NTM2NX0.jME3h4E8BYUT_xTZ9w9Q4BAesC1M53yO7oH-geLjhD0
+
 
 ###
 

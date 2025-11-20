@@ -1,6 +1,7 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { login } from './auth/login.ts'
 import { register } from './auth/register.ts'
+import { valdiateToken } from './auth/validateToken.ts'
 import { completeTask } from './tasks/complete-task.ts'
 import { createTask } from './tasks/create-task.ts'
 import { deleteTask } from './tasks/delete-task.ts'
@@ -14,6 +15,7 @@ import { updateUsername } from './users/update-username.ts'
 export const registerRoutes: FastifyPluginAsyncZod = async (app) => {
   app.register(register, { prefix: '/auth' })
   app.register(login, { prefix: '/auth' })
+  app.register(valdiateToken, { prefix: '/auth' })
 
   app.register(createTask, { prefix: '/tasks' })
   app.register(listTasks, { prefix: '/tasks' })
