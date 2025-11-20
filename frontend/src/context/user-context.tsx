@@ -9,6 +9,7 @@ interface UserContext {
   userData: UserData | null;
   isLogin: boolean | null;
   logoutUser: () => void;
+  getUserProfile: () => Promise<void>;
 }
 
 export const UserContext = React.createContext<UserContext | null>(null);
@@ -54,6 +55,25 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
     }
   };
 
+  const getUserProfile = async () => {
+    const { url, options } = USER_PROFILE_GET();
+    try {
+      setLoading(true);
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        const error = await response.json();
+        console.log("TESTE ERROR:", error);
+      }
+      const json = await response.json();
+      setIsLogin(true);
+      setUserData(json);
+    } catch {
+      logoutUser();
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logoutUser = React.useCallback(function () {
     window.localStorage.removeItem("token");
     setError(null);
@@ -62,7 +82,7 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
   }, []);
 
   React.useEffect(() => {
-    const getUserProfile = async () => {
+    const autoLogin = async () => {
       const { url, options } = USER_PROFILE_GET();
       try {
         setLoading(true);
@@ -71,23 +91,27 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
           const error = await response.json();
           console.log("TESTE ERROR:", error);
         }
-        const json = await response.json();
-        setUserData(json);
         setIsLogin(true);
-      } catch (err) {
-        if (err instanceof Error) {
-          logoutUser();
-        }
+      } catch {
+        logoutUser();
       } finally {
         setLoading(false);
       }
     };
-    getUserProfile();
+    autoLogin();
   }, [navigate, logoutUser]);
 
   return (
     <UserContext.Provider
-      value={{ loginUser, loading, error, userData, isLogin, logoutUser }}
+      value={{
+        loginUser,
+        loading,
+        error,
+        userData,
+        isLogin,
+        logoutUser,
+        getUserProfile,
+      }}
     >
       {children}
     </UserContext.Provider>
