@@ -12,7 +12,7 @@ import { Button } from "./ui/button";
 
 const TaskCard = ({ task }: { task: Task }) => {
   return (
-    <Card className="bg-muted/50 aspect-square rounded-xl p-3">
+    <Card className="bg-card aspect-square rounded-xl p-3">
       <CardHeader className="mt-3">
         <CardTitle>{task.title}</CardTitle>
         <CardAction>
