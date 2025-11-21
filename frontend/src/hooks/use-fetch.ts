@@ -40,8 +40,8 @@ export const useFetch = (): UseFetchResponse => {
           const error = await response.json();
           throw new Error(error.message);
         }
-
-        json = await response.json();
+        const text = await response.text();
+        json = text ? JSON.parse(text) : null;
       } catch (err) {
         if (!signal.aborted && err instanceof Error)
           setError(err.message ?? "Erro desconhecido");

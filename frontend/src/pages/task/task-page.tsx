@@ -5,10 +5,10 @@ import { useClock } from "@/hooks/useClock";
 import React from "react";
 import Search from "@/components/search";
 
-
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Plus } from "lucide-react";
+import Loading from "@/components/loading";
 
 const TaskPage = () => {
   const { loading, error, request } = useFetch();
@@ -43,6 +43,14 @@ const TaskPage = () => {
 
     return () => clearTimeout(id);
   }, [request, search]);
+
+  const handleDelete = React.useCallback((taskId: string) => {
+    console.log("chegou aqui");
+    setTasks((prevTask) => {
+      if (!prevTask) return null;
+      return prevTask.filter((task) => task.id !== taskId);
+    });
+  }, []);
 
   // if (loading) return <Loading />;
   // if (error) return null;
@@ -81,7 +89,9 @@ const TaskPage = () => {
             </div>
             <div className="grid auto-rows-min gap-4 md:grid-cols-4">
               {tasks &&
-                tasks.map((task) => <TaskCard key={task.id} task={task} />)}
+                tasks.map((task) => (
+                  <TaskCard key={task.id} task={task} onDelete={handleDelete} />
+                ))}
             </div>
           </div>
         </div>

@@ -30,9 +30,15 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-const TaskCard = ({ task }: { task: Task }) => {
+interface TaskCardProps {
+  task: Task;
+  onDelete: (taskId: string) => void;
+}
+
+const TaskCard = ({ task, onDelete }: TaskCardProps) => {
   const [checkbox, setCheckbox] = React.useState(task.completed);
-  const { request, error, loading } = useFetch();
+  const [open, setOpen] = React.useState(false);
+  const { request } = useFetch();
 
   const handleComplete = React.useCallback(
     async (taskId: string) => {
@@ -51,9 +57,15 @@ const TaskCard = ({ task }: { task: Task }) => {
   );
 
   async function deleteTask() {
-    const { url, options } = DELETE_TASK(task.id);
-
-    await request(url, options);
+    try {
+      const { url, options } = DELETE_TASK(task.id);
+      const { response } = await request(url, options);
+      console.log(response);
+      onDelete(task.id);
+      setOpen(false);
+    } catch (err) {
+      console.error("Erro ao deletar task:", err);
+    }
   }
 
   React.useEffect(() => {
@@ -67,7 +79,7 @@ const TaskCard = ({ task }: { task: Task }) => {
   return (
     <Card className="bg-card aspect-square rounded-xl p-3">
       <CardHeader className="mt-3">
-        <CardTitle>{task.title}</CardTitle>
+        <CardTitle className="break-all">{task.title}</CardTitle>
         <CardAction>
           <div className="h-9">
             <Checkbox
@@ -79,28 +91,30 @@ const TaskCard = ({ task }: { task: Task }) => {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <CardDescription>{task.description}</CardDescription>
+        <CardDescription className="break-all">{task.description}</CardDescription>
       </CardContent>
 
       <CardFooter className="mt-auto flex flex-col gap-1 ">
         <Separator />
         <div className="flex justify-between w-full">
-          <AlertDialog>
+          <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger asChild>
-              <Button variant={"destructive"} size={"sm"} >
+              <Button variant={"destructive"} size={"sm"}>
                 <Trash2 />
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Tem certeza de que deseja apagar esta tarefa?</AlertDialogTitle>
+                <AlertDialogTitle>
+                  Tem certeza de que deseja apagar esta tarefa?
+                </AlertDialogTitle>
                 <AlertDialogDescription>
-                Ao excluir essa tarefa, não será possível recuperá-la.
+                  Ao excluir essa tarefa, não será possível recuperá-la.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={deleteTask}>Continue</AlertDialogAction>
+                <Button onClick={deleteTask}>Continue</Button>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

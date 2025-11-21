@@ -87,7 +87,6 @@ const UserStorage = ({ children }: React.PropsWithChildren) => {
             const error = await response.json();
             console.log("TESTE ERROR:", error);
           }
-          console.log("logou");
           setIsLogin(true);
           await getUserProfile();
         } catch {
