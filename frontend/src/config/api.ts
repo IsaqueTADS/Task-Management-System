@@ -95,3 +95,17 @@ export function DELETE_TASK(taskId: string) {
     },
   };
 }
+
+export function CREATE_TASK(body: { title: string; description: string }) {
+  return {
+    url: `${API_URL}/tasks`,
+    options: {
+      method: "POST",
+      headers: {
+        Authorization: `Berear ${window.localStorage.getItem("token") || ""}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}

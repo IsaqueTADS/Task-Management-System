@@ -1,5 +1,5 @@
 import TaskCard from "@/components/task-card";
-import { API_URL, LIST_TASK_GET } from "@/config/api";
+import { API_URL, CREATE_TASK, LIST_TASK_GET } from "@/config/api";
 import { useFetch } from "@/hooks/use-fetch";
 import { useClock } from "@/hooks/useClock";
 import React from "react";
@@ -9,11 +9,15 @@ import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Plus } from "lucide-react";
 import Loading from "@/components/loading";
+import TaskDialog from "@/components/task-dialog";
 
 const TaskPage = () => {
   const { loading, error, request } = useFetch();
   const [tasks, setTasks] = React.useState<Task[] | null>(null);
   const [search, setSearch] = React.useState("");
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
 
   const isMobile = useIsMobile();
 
@@ -25,8 +29,6 @@ const TaskPage = () => {
     if (search) {
       delay = 500;
     }
-
-    console.log(`${url}`);
 
     const getTask = async () => {
       const { json } = await request<Tasks>(
@@ -52,6 +54,14 @@ const TaskPage = () => {
     });
   }, []);
 
+  const createTask = async () => {
+    const { url, options } = CREATE_TASK({ title, description });
+    await request(url, options);
+    setOpenDialog(false);
+    setDescription("");
+    setTitle("");
+  };
+
   // if (loading) return <Loading />;
   // if (error) return null;
 
@@ -68,7 +78,7 @@ const TaskPage = () => {
           <Search value={search} setValue={setSearch} />
 
           {!isMobile && (
-            <Button size={"lg"}>
+            <Button size={"lg"} onClick={() => setOpenDialog(!openDialog)}>
               {" "}
               Nova Task
               <Plus className="h-15" />
@@ -76,7 +86,20 @@ const TaskPage = () => {
           )}
         </div>
 
-        <div className="bg-muted min-h-[100vh] flex-1 rounded-xl md:min-h-min">
+        <TaskDialog
+          open={openDialog}
+          setOpen={setOpenDialog}
+          title="Criar nova Task"
+          description="Prencha os campos a baixo para criar sua task"
+          titleValue={title}
+          descriptionValue={description}
+          setTitleValue={setTitle}
+          setDescriptionValue={setDescription}
+          error={error ?? ""}
+          onClick={createTask}
+        />
+
+        <div className="bg-muted min-h-[100vh] flex-1 rounded-xl md:min-h-[500px]">
           <div className="flex flex-1 flex-col gap-4 p-4">
             <div className="flex justify-between">
               <h2 className="text-2xl font-semibold mb-5">Minhas Tarefas</h2>
@@ -87,6 +110,7 @@ const TaskPage = () => {
                 </Button>
               )}
             </div>
+
             <div className="grid auto-rows-min gap-4 md:grid-cols-4">
               {tasks &&
                 tasks.map((task) => (

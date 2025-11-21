@@ -20,7 +20,6 @@ import {
 import { useFetch } from "@/hooks/use-fetch";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -56,6 +55,7 @@ const TaskCard = ({ task, onDelete }: TaskCardProps) => {
     [request]
   );
 
+
   async function deleteTask() {
     try {
       const { url, options } = DELETE_TASK(task.id);
@@ -68,16 +68,8 @@ const TaskCard = ({ task, onDelete }: TaskCardProps) => {
     }
   }
 
-  React.useEffect(() => {
-    if (checkbox) {
-      handleComplete(task.id);
-    } else {
-      handleIncomplete(task.id);
-    }
-  }, [checkbox, task.id, handleIncomplete, handleComplete]);
-
   return (
-    <Card className="bg-card aspect-square rounded-xl p-3">
+    <Card className="bg-card aspect-square rounded-xl p-3 min-h-60  max-h-78">
       <CardHeader className="mt-3">
         <CardTitle className="break-all">{task.title}</CardTitle>
         <CardAction>
@@ -85,13 +77,22 @@ const TaskCard = ({ task, onDelete }: TaskCardProps) => {
             <Checkbox
               className="h-8 w-8"
               checked={checkbox || false}
-              onCheckedChange={(value) => setCheckbox(value === true)}
+              onCheckedChange={(value) => {
+                setCheckbox(value === true);
+                if (value) {
+                  handleComplete(task.id);
+                } else {
+                  handleIncomplete(task.id);
+                }
+              }}
             />
           </div>
         </CardAction>
       </CardHeader>
-      <CardContent>
-        <CardDescription className="break-all">{task.description}</CardDescription>
+      <CardContent className="overflow-y-hidden">
+        <CardDescription className="break-all ">
+          {task.description}
+        </CardDescription>
       </CardContent>
 
       <CardFooter className="mt-auto flex flex-col gap-1 ">
