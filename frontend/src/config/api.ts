@@ -83,3 +83,15 @@ export function INCOMPLETE_TASK_PATCH(taskId: string) {
     },
   };
 }
+
+export function DELETE_TASK(taskId: string) {
+  return {
+    url: `${API_URL}/tasks/${taskId}`,
+    options: {
+      method: "DELETE",
+      headers: {
+        Authorization: `Berear ${window.localStorage.getItem("token") || ""}`,
+      },
+    },
+  };
+}

@@ -12,8 +12,23 @@ import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
 import React from "react";
 import { Separator } from "./ui/separator";
-import { COMPLETE_TASK_PATCH, INCOMPLETE_TASK_PATCH } from "@/config/api";
+import {
+  COMPLETE_TASK_PATCH,
+  DELETE_TASK,
+  INCOMPLETE_TASK_PATCH,
+} from "@/config/api";
 import { useFetch } from "@/hooks/use-fetch";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const TaskCard = ({ task }: { task: Task }) => {
   const [checkbox, setCheckbox] = React.useState(task.completed);
@@ -34,6 +49,12 @@ const TaskCard = ({ task }: { task: Task }) => {
     },
     [request]
   );
+
+  async function deleteTask() {
+    const { url, options } = DELETE_TASK(task.id);
+
+    await request(url, options);
+  }
 
   React.useEffect(() => {
     if (checkbox) {
@@ -64,9 +85,25 @@ const TaskCard = ({ task }: { task: Task }) => {
       <CardFooter className="mt-auto flex flex-col gap-1 ">
         <Separator />
         <div className="flex justify-between w-full">
-          <Button variant={"destructive"} size={"sm"}>
-            <Trash2 />
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant={"destructive"} size={"sm"} >
+                <Trash2 />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Tem certeza de que deseja apagar esta tarefa?</AlertDialogTitle>
+                <AlertDialogDescription>
+                Ao excluir essa tarefa, não será possível recuperá-la.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={deleteTask}>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
           <Button size="sm">
             <SquarePen />
           </Button>
