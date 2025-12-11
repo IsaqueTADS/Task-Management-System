@@ -1,5 +1,5 @@
 import TaskCard from "@/components/task-card";
-import { API_URL, CREATE_TASK, LIST_TASK_GET } from "@/config/api";
+import { CREATE_TASK, LIST_TASK_GET } from "@/config/api";
 import { useFetch } from "@/hooks/use-fetch";
 import { useClock } from "@/hooks/useClock";
 import React from "react";
@@ -10,6 +10,12 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Plus } from "lucide-react";
 import Loading from "@/components/loading";
 import TaskDialog from "@/components/task-dialog";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 
 const TaskPage = () => {
   const { loading, error, request } = useFetch();
@@ -18,6 +24,12 @@ const TaskPage = () => {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
+
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
+  const [totalItems, setTotalItems] = React.useState(0);
+
+  const itemsPerPage = 8;
 
   const isMobile = useIsMobile();
 
@@ -32,11 +44,16 @@ const TaskPage = () => {
 
     const getTask = async () => {
       const { json } = await request<Tasks>(
-        `${url}/?limit=8&search=${search}`,
+        `${url}/?page=${currentPage}&limit=${itemsPerPage}&search=${search}`,
         options
       );
 
       setTasks(json.tasks);
+
+      if (json.total) {
+        setTotalItems(json.total);
+        setTotalPages(Math.ceil(json.total / itemsPerPage));
+      }
     };
 
     const id = setTimeout(() => {
@@ -44,10 +61,9 @@ const TaskPage = () => {
     }, delay);
 
     return () => clearTimeout(id);
-  }, [request, search]);
+  }, [request, search, currentPage]);
 
   const handleDelete = React.useCallback((taskId: string) => {
-    console.log("chegou aqui");
     setTasks((prevTask) => {
       if (!prevTask) return null;
       return prevTask.filter((task) => task.id !== taskId);
@@ -63,7 +79,7 @@ const TaskPage = () => {
   };
 
   // if (loading) return <Loading />;
-  // if (error) return null;
+  if (error) return null;
 
   return (
     <section className="p-2">
