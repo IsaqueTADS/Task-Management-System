@@ -60,7 +60,7 @@ function TaskDialog({
                 onChange={({ currentTarget }) =>
                   setTitleValue(currentTarget.value)
                 }
-                maxLength={255}
+                maxLength={100}
                 min={5}
                 required
               />
@@ -75,7 +75,7 @@ function TaskDialog({
                 onChange={({ currentTarget }) =>
                   setDescriptionValue(currentTarget.value)
                 }
-                maxLength={500}
+                maxLength={250}
               />
             </div>
           </div>

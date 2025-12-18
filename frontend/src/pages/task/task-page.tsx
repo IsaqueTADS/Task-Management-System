@@ -30,7 +30,6 @@ const TaskPage = () => {
   const itemsPerPage = 8;
 
   React.useEffect(() => {
-    // Quando mudar o search, reseta a página e hasMore
     setPage(1);
     setHasMore(true);
     isLoadingRef.current = false;
@@ -164,7 +163,7 @@ const TaskPage = () => {
                 ))}
             </div>
           </div>
-          {loading && <LoadingSecondary />}
+          {isLoadingRef && hasMore && <LoadingSecondary />}
         </div>
       </div>
     </section>
