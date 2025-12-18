@@ -10,12 +10,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Plus } from "lucide-react";
 import Loading from "@/components/loading";
 import TaskDialog from "@/components/task-dialog";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from "lucide-react";
+import LoadingSecondary from "@/components/loadingSecondary";
 
 const TaskPage = () => {
   const { loading, error, request } = useFetch();
@@ -24,16 +19,22 @@ const TaskPage = () => {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
+  const [page, setPage] = React.useState<number>(1);
+  const [infinite, setInfinite] = React.useState(true);
+  const [hasMore, setHasMore] = React.useState(true);
+  const [setTotal, setTotalTask] = React.useState(true);
 
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const [totalPages, setTotalPages] = React.useState(1);
-  const [totalItems, setTotalItems] = React.useState(0);
-
+  const isLoadingRef = React.useRef(false);
+  const isMobile = useIsMobile();
+  const time = useClock();
   const itemsPerPage = 8;
 
-  const isMobile = useIsMobile();
-
-  const time = useClock();
+  React.useEffect(() => {
+    // Quando mudar o search, reseta a página e hasMore
+    setPage(1);
+    setHasMore(true);
+    isLoadingRef.current = false;
+  }, [search]);
 
   React.useEffect(() => {
     const { url, options } = LIST_TASK_GET();
@@ -42,26 +43,55 @@ const TaskPage = () => {
       delay = 500;
     }
 
+    let wait = false;
+    let idScrollTimeout = 0;
+
+    const infiniteScroll = () => {
+      if (infinite) {
+        const scrollElement = document.documentElement || document.body;
+        const scroll = scrollElement.scrollTop;
+        const height = scrollElement.scrollHeight - window.innerHeight;
+
+        console.log("teste", scroll);
+
+        if (scroll > height * 0.75 && !wait && hasMore) {
+          setPage((page) => page + 1);
+          wait = true;
+          idScrollTimeout = setTimeout(() => (wait = false), 500);
+        }
+      }
+    };
+
+    window.addEventListener("wheel", infiniteScroll);
+    window.addEventListener("scroll", infiniteScroll);
+
     const getTask = async () => {
+      if (isLoadingRef.current) return;
+      isLoadingRef.current = true;
       const { json } = await request<Tasks>(
-        `${url}/?page=${currentPage}&limit=${itemsPerPage}&search=${search}`,
+        `${url}/?page=${page}&limit=${itemsPerPage}&search=${search}`,
         options
       );
-
-      setTasks(json.tasks);
-
-      if (json.total) {
-        setTotalItems(json.total);
-        setTotalPages(Math.ceil(json.total / itemsPerPage));
+      if (json.tasks.length < itemsPerPage) {
+        setHasMore(false);
       }
+      setTasks((prevTask) =>
+        page === 1 ? json.tasks : [...(prevTask || []), ...json.tasks]
+      );
+      isLoadingRef.current = false;
     };
 
     const id = setTimeout(() => {
       getTask();
     }, delay);
 
-    return () => clearTimeout(id);
-  }, [request, search, currentPage]);
+    return () => {
+      clearTimeout(id);
+      clearTimeout(idScrollTimeout);
+      window.removeEventListener("wheel", infiniteScroll);
+      window.removeEventListener("scroll", infiniteScroll);
+    };
+  }, [request, search, page, infinite, hasMore]);
 
   const handleDelete = React.useCallback((taskId: string) => {
     setTasks((prevTask) => {
@@ -115,7 +145,7 @@ const TaskPage = () => {
           onClick={createTask}
         />
 
-        <div className="bg-muted min-h-[100vh] flex-1 rounded-xl md:min-h-[500px]">
+        <div className="bg-muted flex-1 rounded-xl md:min-h-[700px]">
           <div className="flex flex-1 flex-col gap-4 p-4">
             <div className="flex justify-between">
               <h2 className="text-2xl font-semibold mb-5">Minhas Tarefas</h2>
@@ -127,13 +157,14 @@ const TaskPage = () => {
               )}
             </div>
 
-            <div className="grid auto-rows-min gap-4 md:grid-cols-4">
+            <div className="grid auto-rows-min gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  2xl:md:grid-cols-5 items-center">
               {tasks &&
                 tasks.map((task) => (
                   <TaskCard key={task.id} task={task} onDelete={handleDelete} />
                 ))}
             </div>
           </div>
+          {loading && <LoadingSecondary />}
         </div>
       </div>
     </section>
